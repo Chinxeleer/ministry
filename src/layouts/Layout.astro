@@ -1,23 +1,201 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+
+const {
+  title = 'Change the Campus. Change the World. — Blessing Kodze, ENC Wits',
+  description = 'A financial partnership invitation from Blessing "Chinxeleer" Kodze, serving students full-time with Every Nation Campus at the University of the Witwatersrand.',
+} = Astro.props;
+
+// Canonical / OG URL — resolves against `site` in astro.config.mjs
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const ogImage = new URL('/images/og-image.jpg', Astro.site ?? Astro.url).href;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <!-- TODO: Replace with real social share image -->
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="theme-color" content="#14225C" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts (Astro Fonts API) -->
+    <Font cssVariable="--font-montserrat" preload />
+    <Font cssVariable="--font-inter" preload />
+
+    <!-- Pre-hide animated elements only when JS is running (FOUC-safe) -->
+    <script is:inline>
+      document.documentElement.classList.add('gsap');
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import gsap from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      /** Safety net: if anything below throws, show everything. */
+      const showAll = () => {
+        gsap.set('[data-reveal], [data-hero]', { autoAlpha: 1, y: 0 });
+        document
+          .querySelectorAll<HTMLElement>('[data-count]')
+          .forEach(fillCount);
+      };
+
+      /** Snap a counter straight to its final value. */
+      function fillCount(el: HTMLElement) {
+        const target = Number(el.dataset.count);
+        if (Number.isNaN(target)) return;
+        el.textContent =
+          target.toLocaleString('en-US') + (el.dataset.suffix ?? '');
+      }
+
+      try {
+        const mm = gsap.matchMedia();
+
+        mm.add(
+          {
+            reduce: '(prefers-reduced-motion: reduce)',
+            motion: '(prefers-reduced-motion: no-preference)',
+          },
+          (ctx) => {
+            // Reduced motion: everything visible, nothing moves.
+            if (ctx.conditions?.reduce) {
+              showAll();
+              return;
+            }
+
+            // The design's cubic-bezier(.22,1,.36,1) — a soft expo settle.
+            gsap.defaults({ ease: 'expo.out', duration: 0.9 });
+
+            /* ---------------------------------------------------------
+               Hero — everything lifts in together on load
+               --------------------------------------------------------- */
+            const heroItems = gsap.utils.toArray<HTMLElement>('[data-hero]');
+            if (heroItems.length) {
+              gsap.fromTo(
+                heroItems,
+                { y: 30, autoAlpha: 0 },
+                {
+                  y: 0,
+                  autoAlpha: 1,
+                  duration: 1.15,
+                  stagger: 0.12,
+                  delay: 0.15,
+                }
+              );
+            }
+
+            /* ---------------------------------------------------------
+               Scroll reveals — 26px lift, honouring data-reveal-delay
+               --------------------------------------------------------- */
+            gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
+              gsap.fromTo(
+                el,
+                { y: 26, autoAlpha: 0 },
+                {
+                  y: 0,
+                  autoAlpha: 1,
+                  duration: 0.7,
+                  delay: Number(el.dataset.revealDelay ?? 0) / 1000,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top 92%',
+                  },
+                }
+              );
+            });
+
+            /* ---------------------------------------------------------
+               Gold rules draw themselves outward
+               --------------------------------------------------------- */
+            gsap.utils.toArray<HTMLElement>('.rule').forEach((rule) => {
+              gsap.fromTo(
+                rule,
+                { scaleX: 0 },
+                {
+                  scaleX: 1,
+                  duration: 0.8,
+                  delay: Number(rule.dataset.revealDelay ?? 0) / 1000,
+                  transformOrigin: rule.classList.contains('mx-auto')
+                    ? 'center center'
+                    : 'left center',
+                  scrollTrigger: { trigger: rule, start: 'top 95%' },
+                }
+              );
+            });
+
+            /* ---------------------------------------------------------
+               Full-bleed photos drift as you scroll past them
+               --------------------------------------------------------- */
+            gsap.utils
+              .toArray<HTMLElement>('[data-parallax]')
+              .forEach((layer) => {
+                gsap.fromTo(
+                  layer,
+                  { yPercent: -6 },
+                  {
+                    yPercent: 6,
+                    ease: 'none',
+                    scrollTrigger: {
+                      trigger: layer.closest('section'),
+                      start: 'top bottom',
+                      end: 'bottom top',
+                      scrub: true,
+                    },
+                  }
+                );
+              });
+
+            /* ---------------------------------------------------------
+               Stat counters
+               --------------------------------------------------------- */
+            gsap.utils.toArray<HTMLElement>('[data-count]').forEach((el) => {
+              const target = Number(el.dataset.count);
+              if (Number.isNaN(target)) return;
+              const suffix = el.dataset.suffix ?? '';
+              const counter = { val: 0 };
+
+              gsap.to(counter, {
+                val: target,
+                duration: 1.6,
+                ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 90%' },
+                onUpdate: () => {
+                  el.textContent =
+                    Math.round(counter.val).toLocaleString('en-US') + suffix;
+                },
+              });
+            });
+          }
+        );
+
+        // Web fonts change text metrics — re-measure once they land.
+        document.fonts?.ready.then(() => ScrollTrigger.refresh());
+      } catch (err) {
+        console.error('Animation init failed:', err);
+        showAll();
+      }
+    </script>
+  </body>
+</html>

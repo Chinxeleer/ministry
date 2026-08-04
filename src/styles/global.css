@@ -1,0 +1,206 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Design tokens — from `ENC Wits Partnership.dc.html`
+   Exposed to Tailwind as utilities: bg-navy, text-gold,
+   border-line, font-display …
+   ============================================================ */
+@theme {
+  /* Deep blues — the spine of the page */
+  --color-navy: #14225c; /* primary dark section background */
+  --color-navy-deep: #0d1633; /* deepest navy — "Why the campus" + scrims */
+  --color-royal: #1b3a91; /* brand blue — radial glow, links */
+
+  /* Accent */
+  --color-gold: #f5b731; /* rules, stats, primary CTA */
+
+  /* Light surfaces */
+  --color-mist: #f3f5fb; /* tinted light section background */
+  --color-line: #e4e7f0; /* hairline borders on light cards */
+
+  /* Text */
+  --color-ink: #333333; /* body copy on light backgrounds */
+  --color-ink-strong: #111111; /* default page text */
+  --color-ink-soft: #555f7a; /* muted footnotes */
+
+  /* Fonts — aliased onto the Astro Fonts API css variables.
+     Montserrat carries every heading, Inter carries all other text. */
+  --font-display: var(--font-montserrat), Montserrat, 'Helvetica Neue',
+    sans-serif;
+  --font-body: var(--font-inter), Inter, 'Helvetica Neue', sans-serif;
+
+  /* Shared motion curve — matches the design's cubic-bezier(.22,1,.36,1) */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-body text-ink-strong antialiased;
+  }
+
+  /* Montserrat sits looser than the serif it replaced, so display-size
+     text gets a touch of negative tracking to keep the headlines tight. */
+  h1,
+  h2,
+  h3,
+  .font-display {
+    @apply font-display;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    letter-spacing: -0.01em;
+  }
+
+  a {
+    color: var(--color-royal);
+  }
+}
+
+/* ============================================================
+   Reusable primitives
+   ============================================================ */
+@layer components {
+  /* Section shell — clamp values lifted from the design */
+  .section {
+    padding: clamp(80px, 12vh, 140px) clamp(20px, 5vw, 56px);
+  }
+  .section-inner {
+    @apply mx-auto w-full;
+    max-width: 1100px;
+  }
+
+  /* Gold rule under a heading. GSAP grows it from the left. */
+  .rule {
+    @apply block bg-gold;
+    width: 64px;
+    height: 4px;
+  }
+
+  /* Pill buttons */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-body font-semibold no-underline;
+    min-height: 44px;
+    transition:
+      background-color 0.25s var(--ease-out-soft),
+      border-color 0.25s var(--ease-out-soft),
+      color 0.25s var(--ease-out-soft),
+      transform 0.25s var(--ease-out-soft),
+      box-shadow 0.25s var(--ease-out-soft);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Gold CTA on navy */
+  .btn-gold {
+    @apply bg-gold text-navy;
+    padding: 16px 36px;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 14px 34px -16px rgba(245, 183, 49, 0.9);
+  }
+  .btn-gold:hover {
+    @apply bg-white text-navy;
+  }
+
+  /* Outlined CTA on navy */
+  .btn-ghost {
+    @apply bg-transparent text-white;
+    padding: 15px 32px;
+    font-size: 15px;
+    border: 1px solid rgb(255 255 255 / 0.5);
+  }
+  .btn-ghost:hover {
+    @apply border-gold text-gold;
+  }
+
+  /* Frosted glass pill used in the hero header */
+  .btn-frosted {
+    @apply text-white backdrop-blur-md;
+    padding: 10px 22px;
+    font-size: 14px;
+    background: rgb(255 255 255 / 0.12);
+    border: 1px solid rgb(255 255 255 / 0.35);
+  }
+  .btn-frosted:hover {
+    @apply bg-gold text-navy;
+    border-color: var(--color-gold);
+  }
+
+  /* Frosted card on navy (stat cards, giving tiers) */
+  .glass {
+    @apply backdrop-blur-md;
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.14);
+  }
+
+  /* Bottom-up scrim over a photo, for caption tiles */
+  .scrim {
+    background: linear-gradient(
+      180deg,
+      rgb(13 22 51 / 0) 0%,
+      rgb(13 22 51 / 0.78) 78%,
+      rgb(13 22 51 / 0.2) 100%
+    );
+  }
+}
+
+/* ============================================================
+   Scroll reveal
+   GSAP drives the motion. Elements are only pre-hidden once the
+   inline script confirms JS is running (html.gsap), so with JS
+   off — or if the bundle fails — the page stays fully visible.
+   ============================================================ */
+html.gsap [data-reveal],
+html.gsap [data-hero] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.gsap [data-reveal],
+  html.gsap [data-hero] {
+    opacity: 1;
+  }
+  .scroll-cue {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Hero scroll indicator — the gold arrow drifting downward */
+@keyframes cue-drop {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+.scroll-cue {
+  animation: cue-drop 1.8s ease-in-out infinite;
+}

@@ -1,0 +1,130 @@
+---
+// Join the Mission — blue background, white conversion card
+const amounts = ['R300', 'R500', 'R700'];
+
+// TODO: Replace with the real WhatsApp number (international format, no +)
+const whatsapp =
+  "https://wa.me/27XXXXXXXXX?text=Hi%20Blessing%2C%20I'd%20like%20to%20partner%20with%20you!";
+// TODO: Replace with the real ministry contact email
+const email = 'mailto:your.email@example.com?subject=Ministry%20Partnership';
+
+const nextSteps = [
+  'You will receive a form with my MPD number for accountability, tracking, and tax registration.',
+  'I will follow up with you in a few days.',
+  'Is there anything I can pray for you?',
+];
+---
+
+<section id="partner" class="section scroll-mt-16 bg-blue text-white">
+  <div class="section-inner reveal">
+    <!-- Heart icon -->
+    <svg
+      class="mx-auto h-11 w-11 text-yellow"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 21s-7.5-4.6-10-9.3C.4 8.4 1.9 4.8 5.3 4.2 7.4 3.8 9.4 4.9 12 7c2.6-2.1 4.6-3.2 6.7-2.8 3.4.6 4.9 4.2 3.3 7.5C19.5 16.4 12 21 12 21Z"
+      ></path>
+    </svg>
+
+    <h2 class="heading mt-4 text-white">Join the Mission!</h2>
+    <span class="heading-rule"></span>
+
+    <!-- White conversion card -->
+    <div
+      class="mx-auto mt-4 max-w-xl rounded-2xl bg-white p-6 text-ink shadow-[0_18px_50px_rgba(0,0,0,0.25)] sm:p-9"
+    >
+      <p class="text-center leading-relaxed">
+        I'm putting together a team of ministry partners — people who care about
+        the next generation as much as I do and want to help reach them. I'd love
+        for you to be one of them.
+      </p>
+
+      <p class="mt-5 text-center font-display text-xl font-bold text-blue">
+        <!-- TODO: fill in the monthly target amount -->
+        I am trusting to raise R[amount]/month through a team of partners.
+      </p>
+
+      <hr class="my-7 border-ink/15" />
+
+      <p class="text-center font-body font-bold text-blue">
+        Choose Your Contribution
+      </p>
+
+      <div data-stagger class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
+        {
+          amounts.map((a) => (
+            <div class="rounded-xl border-2 border-blue/15 py-5 text-center transition-colors hover:border-yellow">
+              <span class="block font-display text-2xl font-bold text-blue">
+                {a}
+              </span>
+              <span class="mt-1 block text-sm text-ink/70">per month</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-yellow mt-6 w-full"
+      >
+        Partner With Me
+      </a>
+
+      <!-- Next steps -->
+      <div class="mt-6 rounded-xl bg-cloud p-5">
+        <ul class="flex flex-col gap-2.5">
+          {
+            nextSteps.map((step) => (
+              <li class="flex gap-2.5 text-sm leading-relaxed">
+                <span class="text-yellow" aria-hidden="true">
+                  ✅
+                </span>
+                <span>{step}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Banking details -->
+      <div class="mt-6 rounded-xl border border-ink/10 p-5">
+        <p class="mb-3 font-body font-bold text-blue">Banking Details</p>
+        <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
+          <dt class="text-ink/60">Account Holder</dt>
+          <dd class="font-medium">[ Your Name ]</dd>
+          <dt class="text-ink/60">Bank</dt>
+          <dd class="font-medium">[ Bank Name ]</dd>
+          <dt class="text-ink/60">Account Number</dt>
+          <dd class="font-medium">[ Account No. ]</dd>
+          <dt class="text-ink/60">Branch Code</dt>
+          <dd class="font-medium">[ Branch Code ]</dd>
+          <dt class="text-ink/60">Reference</dt>
+          <dd class="font-medium">Blessing Kodze</dd>
+        </dl>
+      </div>
+
+      <!-- Contact buttons -->
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a
+          href={whatsapp}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-whatsapp w-full"
+        >
+          WhatsApp Me
+        </a>
+        <a
+          href={email}
+          class="btn w-full border-2 border-blue/20 text-blue hover:border-blue"
+        >
+          Send Email
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

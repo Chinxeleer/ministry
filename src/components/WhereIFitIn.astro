@@ -1,0 +1,182 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import portrait from '../assets/profile.jpg';
+import engage from '../assets/engage.jpg';
+import multimedia from '../assets/multimedia.jpg';
+
+interface Pillar {
+  id: string;
+  title: string;
+  /** Placeholder caption, shown until `src` is supplied. */
+  photo: string;
+  src?: ImageMetadata;
+  alt?: string;
+  position?: string;
+  /**
+   * Show the whole frame instead of the row's 4:3 crop: the slot takes the
+   * photo's own portrait ratio and drops the hover zoom, so every pixel of
+   * the shot stays on screen.
+   */
+  uncropped?: boolean;
+  body: string;
+}
+
+const pillars: Pillar[] = [
+  {
+    id: 'pillar-media',
+    title: 'Multi-Media',
+    photo: 'Photo: Media team filming on campus',
+    src: multimedia,
+    alt: 'A phone on a gimbal live-streaming a campus session, the speaker in shot on screen',
+    uncropped: true,
+    body: "Capturing and telling the story of what God is doing on campus, so one student's testimony can reach thousands more.",
+  },
+  {
+    id: 'pillar-engage',
+    title: 'Outreach',
+    photo: 'Photo: Outreach in Braamfontein',
+    src: engage,
+    alt: 'Students gathered together on the Great Hall steps during weekly outreach',
+    // Portrait source in a 4:3 slot — bias the crop down onto the group.
+    position: '50% 55%',
+    body: 'Going out onto Wits campus and into Braamfontein every week, starting real conversations and meeting students where they are.',
+  },
+  {
+    id: 'pillar-prayer',
+    title: 'Prayer & Intercession',
+    photo: 'Photo: Prayer & intercession gathering',
+    body: 'Standing in prayer for students, staff and the campus itself. The engine room behind everything else we do.',
+  },
+];
+---
+
+<section
+  id="where-i-fit-in"
+  class="scroll-mt-4 bg-white px-[clamp(20px,5vw,56px)] py-[clamp(100px,16vh,180px)]"
+>
+  <div class="section-inner">
+    <h2
+      data-reveal
+      class="text-[clamp(32px,5.5vw,54px)] leading-[1.12] font-bold text-navy"
+    >
+      Where I fit in
+    </h2>
+
+    <span data-reveal data-reveal-delay="100" class="rule mt-6 mb-[30px]"></span>
+
+    <div data-reveal class="flex flex-wrap items-center gap-7">
+      <div class="h-36 w-36 flex-none">
+        <ImageSlot
+          id="portrait"
+          label="Photo: Chinxeleer"
+          src={portrait}
+          alt="Blessing Kodze"
+          shape="circle"
+          tone="light"
+          position="50% 18%"
+          maxWidth={288}
+        />
+      </div>
+      <p
+        class="max-w-[58ch] min-w-[260px] flex-1 text-[clamp(16px,2vw,19px)] leading-[1.7] text-ink"
+      >
+        I serve as a ministry intern with Every Nation Campus Wits, under Campus
+        Pastor Neo Mahome. My week is built around three areas of the ministry.
+      </p>
+    </div>
+
+    <!-- One full row per pillar, image and copy alternating sides -->
+    <div class="mt-[clamp(64px,9vh,110px)] space-y-[clamp(56px,8vh,96px)]">
+      {
+        pillars.map((pillar, i) => (
+          <article class="group/card grid items-center gap-8 md:grid-cols-[1.08fr_0.92fr] md:gap-14">
+            <div
+              data-reveal
+              class:list={[
+                'group overflow-hidden rounded-2xl shadow-[0_18px_50px_-24px_rgb(20_34_92/0.45)]',
+                i % 2 === 1 && 'md:order-2',
+                pillar.uncropped && 'mx-auto w-full max-w-110',
+              ]}
+            >
+              <div
+                class:list={
+                  pillar.uncropped
+                    ? 'aspect-3/4'
+                    : 'aspect-4/3 transition-transform duration-600 ease-out-soft group-hover:scale-[1.04]'
+                }
+              >
+                <ImageSlot
+                  id={pillar.id}
+                  label={pillar.photo}
+                  src={pillar.src}
+                  alt={pillar.alt}
+                  position={pillar.position}
+                  maxWidth={pillar.uncropped ? 440 : 640}
+                />
+              </div>
+            </div>
+
+            <div data-reveal data-reveal-delay="120">
+              <div class="mb-4 flex items-center gap-5" aria-hidden="true">
+                <span class="pillar-num">{String(i + 1).padStart(2, '0')}</span>
+                <span class="pillar-num-rule" />
+              </div>
+              <h3 class="mb-4 text-[clamp(24px,3.4vw,34px)] leading-[1.15] font-bold text-navy">
+                {pillar.title}
+              </h3>
+              <p class="max-w-[46ch] text-[clamp(15.5px,1.9vw,17.5px)] leading-[1.7] text-[#444444]">
+                {pillar.body}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Editorial index numeral — outlined display type at headline scale, so the
+     count reads as art direction rather than a label. It warms to a soft gold
+     fill as the row is hovered. */
+  .pillar-num {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 8vw, 92px);
+    font-weight: 800;
+    line-height: 0.78;
+    letter-spacing: -0.045em;
+    color: var(--color-gold);
+    transition: color 450ms var(--ease-out-soft);
+  }
+
+  /* The outline only exists where text-stroke does; elsewhere the numeral
+     stays solid gold rather than vanishing. */
+  @supports (-webkit-text-stroke: 1px currentColor) {
+    .pillar-num {
+      color: transparent;
+      -webkit-text-stroke: 1.6px var(--color-gold);
+    }
+
+    article:hover .pillar-num {
+      color: rgb(245 183 49 / 0.22);
+    }
+  }
+
+  .pillar-num-rule {
+    height: 1px;
+    width: clamp(44px, 7vw, 78px);
+    background: linear-gradient(90deg, var(--color-gold), transparent);
+    transition: width 450ms var(--ease-out-soft);
+  }
+
+  article:hover .pillar-num-rule {
+    width: clamp(62px, 10vw, 116px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-num,
+    .pillar-num-rule {
+      transition: none;
+    }
+  }
+</style>

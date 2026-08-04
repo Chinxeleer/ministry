@@ -1,0 +1,82 @@
+---
+import { MoveDown } from '@lucide/astro';
+import ImageSlot from './ImageSlot.astro';
+import witsGreatHall from '../assets/wits.jpg';
+---
+
+<section
+  id="top"
+  class="relative flex min-h-svh flex-col overflow-hidden bg-navy"
+>
+  <!-- Campus photo, gently parallaxed on scroll -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <div data-parallax class="absolute inset-x-0 -inset-y-[8%]">
+      <ImageSlot
+        id="hero-bg"
+        label="Photo: Wits students on campus, golden hour"
+        src={witsGreatHall}
+        alt=""
+        position="50% 42%"
+        eager
+      />
+    </div>
+  </div>
+
+  <!-- Legibility scrim: light at the top, deep navy behind the headline -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(20_34_92/0.55)_0%,rgb(20_34_92/0.25)_40%,rgb(13_22_60/0.88)_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <header
+    class="pointer-events-none relative z-2 flex items-center justify-between gap-4 px-[clamp(20px,5vw,56px)] py-[22px]"
+  >
+    <p class="text-[13px] font-semibold tracking-[0.14em] text-white uppercase">
+      Every Nation Campus · Wits
+    </p>
+    <a href="#partner" class="btn btn-frosted pointer-events-auto">Partner</a>
+  </header>
+
+  <div
+    class="pointer-events-none relative z-2 mt-auto max-w-[860px] px-[clamp(20px,5vw,56px)] pb-[clamp(72px,10vh,110px)]"
+  >
+    <p
+      data-hero
+      class="mb-[18px] text-[clamp(14px,1.6vw,17px)] font-medium tracking-[0.02em] text-white/85"
+    >
+      A financial partnership invitation from Blessing Kodze
+    </p>
+
+    <h1
+      data-hero
+      class="text-[clamp(42px,9vw,88px)] leading-[1.04] font-extrabold text-balance text-white"
+    >
+      Change the Campus.<br />Change the World.
+    </h1>
+
+    <span data-hero class="rule mt-[26px] mb-[22px] w-[76px]"></span>
+
+    <p
+      data-hero
+      class="max-w-[56ch] text-[clamp(16px,2vw,19px)] leading-[1.6] text-white/90"
+    >
+      I serve students at the University of the Witwatersrand full-time. This is
+      the story of why, and an invitation to build it with me, month by month.
+    </p>
+  </div>
+
+  <!-- Scroll cue -->
+  <div
+    class="pointer-events-none absolute bottom-[22px] left-1/2 z-2 flex -translate-x-1/2 flex-col items-center gap-2"
+    aria-hidden="true"
+  >
+    <span class="text-[11px] tracking-[0.22em] text-white/70 uppercase"
+      >Scroll down</span
+    >
+    <MoveDown
+      class="scroll-cue h-8.5 w-8.5 text-gold"
+      stroke-width={1.25}
+    />
+  </div>
+</section>

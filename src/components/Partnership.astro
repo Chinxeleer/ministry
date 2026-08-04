@@ -1,0 +1,69 @@
+---
+const steps = [
+  {
+    title: 'You give monthly',
+    body: 'Choose an amount and set up a monthly EFT or debit order. Once-off gifts are welcome too.',
+  },
+  {
+    title: 'Every Nation Southern Africa receives it',
+    body: 'Your gift goes into the central ministry account, where it is receipted and accounted for. Nothing is paid into a personal account.',
+  },
+  {
+    title: 'It is released as my salary',
+    body: 'Every Nation pays it out as my ministry salary, which frees me to serve students on campus full-time.',
+  },
+];
+---
+
+<section id="partnership" class="section scroll-mt-4 bg-mist">
+  <div class="section-inner">
+    <h2
+      data-reveal
+      class="text-[clamp(32px,5.5vw,54px)] leading-[1.12] font-bold text-navy"
+    >
+      How the partnership works
+    </h2>
+
+    <span data-reveal data-reveal-delay="100" class="rule mt-6 mb-[18px]"></span>
+
+    <p
+      data-reveal
+      data-reveal-delay="160"
+      class="mb-11 max-w-[60ch] text-[clamp(15px,1.8vw,17.5px)] leading-[1.65] text-ink"
+    >
+      Ministry interns raise their own support. Every gift follows one
+      accountable route, so you always know where your giving goes.
+    </p>
+
+    <ol class="flex flex-wrap gap-[18px]">
+      {
+        steps.map((step, i) => (
+          <li
+            data-reveal
+            data-reveal-delay={i * 120}
+            class="min-w-[250px] flex-1 rounded-2xl border border-line bg-white px-[26px] py-7 transition-[transform,box-shadow] duration-300 ease-out-soft hover:-translate-y-1 hover:shadow-[0_14px_40px_rgb(20_34_92/0.1)]"
+          >
+            <span
+              class="flex h-11 w-11 items-center justify-center rounded-full bg-navy font-display text-[20px] font-bold text-white"
+              aria-hidden="true"
+            >
+              {i + 1}
+            </span>
+            <h3 class="mt-[18px] mb-2 font-body text-[18px] font-bold text-navy">
+              {step.title}
+            </h3>
+            <p class="text-[14.5px] leading-[1.6] text-[#444444]">{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p
+      data-reveal
+      class="mt-7 max-w-[64ch] text-[14px] leading-[1.6] text-ink-soft"
+    >
+      Partners receive updates on the ministry, and you can pause or change your
+      giving at any time.
+    </p>
+  </div>
+</section>

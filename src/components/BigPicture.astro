@@ -1,0 +1,86 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import globalMosaic from '../assets/global.jpg';
+
+const stats = [
+  { value: 81, display: '81', label: 'countries', note: 'with an Every Nation presence' },
+  { value: 711, display: '711', label: 'churches', note: 'planted across the movement' },
+  {
+    value: 1400,
+    display: '1,400+',
+    suffix: '+',
+    label: 'campus ministries',
+    note: 'reaching students worldwide',
+  },
+];
+---
+
+<section
+  id="big-picture"
+  class="section relative scroll-mt-4 bg-navy bg-[radial-gradient(1100px_620px_at_82%_-12%,rgb(27_58_145/0.85),rgb(27_58_145/0)_60%)]"
+>
+  <div class="section-inner">
+    <h2
+      data-reveal
+      class="max-w-[22ch] text-[clamp(32px,5.5vw,54px)] leading-[1.12] font-bold text-balance text-white"
+    >
+      This is bigger than one campus.
+    </h2>
+
+    <span data-reveal data-reveal-delay="100" class="rule mt-6 mb-[18px]"></span>
+
+    <p
+      data-reveal
+      data-reveal-delay="160"
+      class="mb-12 max-w-[60ch] text-[clamp(15px,1.8vw,18px)] leading-[1.65] text-white/85"
+    >
+      Every Nation is a global family of churches and campus ministries with one
+      conviction: reach students today, and you shape nations tomorrow.
+    </p>
+
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+      {
+        stats.map((stat, i) => (
+          <div
+            data-reveal
+            data-reveal-delay={i * 120}
+            class="glass rounded-2xl px-[26px] py-[30px]"
+          >
+            <p class="font-display text-[clamp(46px,6.5vw,66px)] leading-none font-extrabold text-gold">
+              <span data-count={stat.value} data-suffix={stat.suffix}>
+                {stat.display}
+              </span>
+            </p>
+            <p class="mt-2.5 text-[15px] font-semibold text-white">
+              {stat.label}
+            </p>
+            <p class="mt-1 text-[13.5px] leading-[1.5] text-white/65">
+              {stat.note}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      data-reveal
+      class="mt-5 min-h-[220px] overflow-hidden rounded-2xl aspect-21/9"
+    >
+      <ImageSlot
+        id="global-gathering"
+        label="Photo: Every Nation global gathering / world conference crowd"
+        src={globalMosaic}
+        alt="A mosaic of Every Nation church and campus ministry gatherings from around the world"
+        maxWidth={1100}
+      />
+    </div>
+
+    <p
+      data-reveal
+      class="mt-[26px] max-w-[58ch] text-[14.5px] leading-[1.6] text-white/70"
+    >
+      ENC Wits is one local expression of that global movement, on the ground in
+      Braamfontein, Johannesburg.
+    </p>
+  </div>
+</section>

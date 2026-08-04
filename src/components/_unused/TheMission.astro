@@ -1,0 +1,68 @@
+---
+// A Global Movement — blue background with frosted-glass stat cards
+const stats = [
+  {
+    number: '81',
+    label: 'Nations',
+    // globe
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18Z"/>',
+  },
+  {
+    number: '711',
+    label: 'Churches',
+    // church
+    icon: '<path d="M12 2v6"/><path d="M9 5h6"/><path d="M6 22V11l6-4 6 4v11"/><path d="M10 22v-5h4v5"/>',
+  },
+  {
+    number: '1,405',
+    label: 'Campuses',
+    // graduation cap
+    icon: '<path d="M22 9 12 5 2 9l10 4 10-4Z"/><path d="M6 11v5c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-5"/>',
+  },
+];
+---
+
+<section id="mission" class="section bg-blue text-white">
+  <div class="section-inner">
+    <h2 class="reveal heading text-white">A Global Movement Raising Leaders</h2>
+    <span class="heading-rule"></span>
+
+    <p
+      class="reveal mx-auto max-w-2xl text-center text-[clamp(1.02rem,2.4vw,1.15rem)] text-white/85"
+    >
+      I'm part of Every Nation — a family of churches and campus ministries
+      spread across the world. Wherever we are, the heart is the same: build
+      communities that grow real character, raise up leaders, and love the people
+      around them, all rooted in our faith in Jesus.
+    </p>
+
+    <ul
+      data-stagger
+      class="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-5 md:grid-cols-3"
+    >
+      {
+        stats.map((s) => (
+          <li class="rounded-2xl border border-white/15 bg-white/10 px-6 py-9 text-center backdrop-blur-md">
+            <svg
+              class="mx-auto mb-4 h-10 w-10 text-yellow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              set:html={s.icon}
+            />
+            <span class="stat-number block font-display text-[clamp(2.6rem,9vw,3.4rem)] font-bold text-yellow">
+              {s.number}
+            </span>
+            <span class="mt-1.5 block font-body text-sm font-semibold tracking-[0.14em] text-white uppercase">
+              {s.label}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

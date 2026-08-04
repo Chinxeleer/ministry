@@ -1,0 +1,44 @@
+---
+const links = [
+  { href: '#mission', label: 'Vision' },
+  { href: '#why-campus', label: 'Why Campus' },
+  { href: '#what-i-do', label: 'What I Do' },
+  { href: '#gallery', label: 'Gallery' },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-white/10 bg-blue/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex w-full max-w-270 items-center justify-between px-5 py-3.5 sm:px-8"
+  >
+    <a
+      href="#top"
+      class="font-body text-lg font-bold tracking-tight text-white sm:text-xl"
+    >
+      Blessing Kodze
+    </a>
+
+    <div class="flex items-center gap-7">
+      <ul class="hidden items-center gap-7 md:flex">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="font-body text-sm font-medium text-white/80 transition-colors hover:text-yellow"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a href="#partner" class="btn btn-yellow px-5! py-2.5! text-sm">
+        Partner
+      </a>
+    </div>
+  </nav>
+</header>

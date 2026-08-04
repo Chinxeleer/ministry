@@ -1,0 +1,100 @@
+---
+// What I Do — testimony card (Part A) + photo gallery (Part B)
+const areas = [
+  {
+    title: 'Connect Groups — Building People Up Close',
+    body: "Every week I gather a small group of students in the campus res. It's where people actually feel known and heard, and where they get gently challenged to grow. Real character isn't built in a crowd — it's built around a table.",
+  },
+  {
+    title: 'Engage — Going to Where People Are',
+    body: "Every Friday and Saturday I lead our outreach across campus and into Braamfontein. We're not there to preach at anyone — we just start conversations, listen, and meet people right where they are.",
+  },
+  {
+    title: 'Prayer — The Foundation of Everything',
+    body: "I also lead our prayer team, and honestly this is the part that holds everything else up. Before any outreach, before any group meets, we pray. Nothing else works without it.",
+  },
+];
+
+// 9 gallery slots — all placeholders for now
+const gallery = Array.from({ length: 9 }, (_, i) => i + 1);
+---
+
+<section id="what-i-do" class="section bg-cloud text-ink">
+  <div class="section-inner">
+    <!-- Part A: What I Do testimony card -->
+    <div class="reveal">
+      <h2 class="heading text-blue">What I Do on Campus</h2>
+      <span class="heading-rule"></span>
+
+      <p class="mx-auto max-w-2xl text-center text-[clamp(1.02rem,2.4vw,1.15rem)]">
+        I've been part of Every Nation Campus Wits since 2019, and right now I'm
+        serving full-time as a ministry intern under our Campus Pastor, Neo
+        Mahome. Day to day, there are three things I pour myself into:
+      </p>
+    </div>
+
+    <div
+      class="reveal relative mx-auto mt-10 max-w-3xl rounded-2xl bg-blue p-7 text-white shadow-[0_10px_40px_rgba(27,58,145,0.25)] sm:p-10"
+    >
+      <!-- Quote mark -->
+      <svg
+        class="mb-5 h-9 w-9 text-yellow"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M9.5 6C6.5 7.5 5 10 5 13v5h6v-6H8c0-2 1-3.5 3-4.5L9.5 6Zm10 0C16.5 7.5 15 10 15 13v5h6v-6h-3c0-2 1-3.5 3-4.5L19.5 6Z"
+        ></path>
+      </svg>
+
+      <ul class="flex flex-col gap-7">
+        {
+          areas.map((a) => (
+            <li>
+              <p class="flex gap-2 font-display text-lg font-bold text-yellow">
+                <span aria-hidden="true">✦</span>
+                <span>{a.title}</span>
+              </p>
+              <p class="mt-2 pl-6 text-white/85">{a.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Yellow banner -->
+    <div class="reveal mt-8 flex justify-center">
+      <p
+        class="rounded-full bg-yellow px-7 py-3.5 text-center font-body font-semibold text-blue"
+      >
+        This isn't just a nice slogan to me — I get to watch lives actually change.
+      </p>
+    </div>
+
+    <!-- Part B: photo gallery -->
+    <div id="gallery" class="mt-20 scroll-mt-20">
+      <h2 class="reveal heading text-blue">What's Happening on Campus</h2>
+      <span class="heading-rule"></span>
+
+      <div
+        data-stagger
+        class="mt-4 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3"
+      >
+        {
+          gallery.map((n) => (
+            /* TODO: Add campus ministry photo {n} */
+            <img
+              src="/images/placeholder.svg"
+              alt={`Campus ministry moment ${n}`}
+              loading="lazy"
+              width="600"
+              height="600"
+              class="aspect-square w-full rounded-xl object-cover"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

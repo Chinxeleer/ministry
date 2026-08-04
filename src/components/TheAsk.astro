@@ -1,0 +1,96 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import {
+  bookHref,
+  contactEmail,
+  ctaHref,
+  mailtoHref,
+  tiers,
+} from '../data/partnership';
+---
+
+<section
+  id="partner"
+  class="relative flex min-h-svh scroll-mt-4 items-center overflow-hidden bg-navy px-[clamp(20px,5vw,56px)] py-[clamp(90px,12vh,150px)]"
+>
+  <div class="absolute inset-0" aria-hidden="true">
+    <div data-parallax class="absolute inset-x-0 -inset-y-[8%]">
+      <ImageSlot
+        id="ask-bg"
+        label="Photo: ENC Wits students together / worship night"
+      />
+    </div>
+  </div>
+
+  <div
+    class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(13_22_51/0.86)_0%,rgb(20_34_92/0.8)_55%,rgb(13_22_51/0.92)_100%)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative z-2 mx-auto w-full max-w-[900px] text-center">
+    <h2
+      data-reveal
+      class="text-[clamp(36px,7vw,68px)] leading-[1.08] font-extrabold text-balance text-white"
+    >
+      Partner with me
+    </h2>
+
+    <span
+      data-reveal
+      data-reveal-delay="100"
+      class="rule mx-auto mt-[26px] mb-5"></span>
+
+    <p
+      data-reveal
+      data-reveal-delay="160"
+      class="mx-auto mb-[42px] max-w-[52ch] text-[clamp(15.5px,2vw,18.5px)] leading-[1.65] text-white/90"
+    >
+      Monthly partnership is what makes full-time campus ministry possible.
+      Choose a tier, or give any amount that works for you.
+    </p>
+
+    <ul class="mb-11 flex flex-wrap justify-center gap-4">
+      {
+        tiers.map((tier, i) => (
+          <li
+            data-reveal
+            data-reveal-delay={i * 100}
+            class="glass relative flex min-w-[150px] flex-col items-center gap-0.5 rounded-full px-11 py-6 transition-[background-color,border-color,transform] duration-300 ease-out-soft hover:-translate-y-1 hover:border-gold hover:bg-white/15"
+          >
+            {tier.badge && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gold px-3 py-1 text-[11px] font-bold tracking-[0.06em] whitespace-nowrap text-navy uppercase">
+                {tier.badge}
+              </span>
+            )}
+            <span class="font-display text-[32px] leading-none font-extrabold text-white">
+              {tier.amount}
+            </span>
+            <span class="text-[13px] text-white/70">per month</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div
+      data-reveal
+      class="flex flex-wrap items-center justify-center gap-3.5"
+    >
+      <a href={ctaHref} target="_blank" rel="noopener" class="btn btn-gold">
+        Start a monthly partnership
+      </a>
+      <a href={bookHref} class="btn btn-ghost">Book a conversation</a>
+    </div>
+
+    <p data-reveal class="mt-13 text-[13px] leading-[1.7] text-white/55">
+      Blessing "Chinxeleer" Kodze · Every Nation Campus Wits · University of the
+      Witwatersrand, Johannesburg<br />
+      <a
+        href={mailtoHref}
+        class="text-white/75 transition-colors duration-200 hover:text-gold"
+      >
+        {contactEmail}
+      </a>
+    </p>
+  </div>
+</section>
