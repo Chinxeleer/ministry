@@ -33,7 +33,8 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'Inter',
       cssVariable: '--font-inter',
-      weights: [400, 500, 600, 700],
+      // 800 carries the parenthesised index numerals (.index-num).
+      weights: [400, 500, 600, 700, 800],
       styles: ['normal'],
       optimizedFallbacks: true,
       fallbacks: ['Helvetica Neue', 'sans-serif'],

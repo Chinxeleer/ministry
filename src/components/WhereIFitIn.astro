@@ -83,7 +83,7 @@ const pillars: Pillar[] = [
     <div class="mt-[clamp(64px,9vh,110px)] space-y-[clamp(56px,8vh,96px)]">
       {
         pillars.map((pillar, i) => (
-          <article class="group/card grid items-center gap-8 md:grid-cols-[1.08fr_0.92fr] md:gap-14">
+          <article class="grid items-center gap-8 md:grid-cols-[1.08fr_0.92fr] md:gap-14">
             <div
               data-reveal
               class:list={[
@@ -111,10 +111,9 @@ const pillars: Pillar[] = [
             </div>
 
             <div data-reveal data-reveal-delay="120">
-              <div class="mb-4 flex items-center gap-5" aria-hidden="true">
-                <span class="pillar-num">{String(i + 1).padStart(2, '0')}</span>
-                <span class="pillar-num-rule" />
-              </div>
+              <span class="index-num mb-4" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <h3 class="mb-4 text-[clamp(24px,3.4vw,34px)] leading-[1.15] font-bold text-navy">
                 {pillar.title}
               </h3>
@@ -128,49 +127,3 @@ const pillars: Pillar[] = [
     </div>
   </div>
 </section>
-
-<style>
-  /* Editorial index numeral — outlined display type at headline scale, so the
-     count reads as art direction rather than a label. It warms to a soft gold
-     fill as the row is hovered. */
-  .pillar-num {
-    font-family: var(--font-display);
-    font-size: clamp(56px, 8vw, 92px);
-    font-weight: 800;
-    line-height: 0.78;
-    letter-spacing: -0.045em;
-    color: var(--color-gold);
-    transition: color 450ms var(--ease-out-soft);
-  }
-
-  /* The outline only exists where text-stroke does; elsewhere the numeral
-     stays solid gold rather than vanishing. */
-  @supports (-webkit-text-stroke: 1px currentColor) {
-    .pillar-num {
-      color: transparent;
-      -webkit-text-stroke: 1.6px var(--color-gold);
-    }
-
-    article:hover .pillar-num {
-      color: rgb(245 183 49 / 0.22);
-    }
-  }
-
-  .pillar-num-rule {
-    height: 1px;
-    width: clamp(44px, 7vw, 78px);
-    background: linear-gradient(90deg, var(--color-gold), transparent);
-    transition: width 450ms var(--ease-out-soft);
-  }
-
-  article:hover .pillar-num-rule {
-    width: clamp(62px, 10vw, 116px);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pillar-num,
-    .pillar-num-rule {
-      transition: none;
-    }
-  }
-</style>

@@ -89,6 +89,24 @@
     height: 4px;
   }
 
+  /* Index numerals — every counter on the page uses this one treatment:
+     parenthesised, heavy, 18/20. Parentheses are drawn in CSS so the
+     markup only ever carries the digits. */
+  .index-num {
+    @apply inline-block font-body text-ink-strong;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+  .index-num::before {
+    content: '(';
+  }
+  .index-num::after {
+    content: ')';
+  }
+
   /* Pill buttons */
   .btn {
     @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-body font-semibold no-underline;
