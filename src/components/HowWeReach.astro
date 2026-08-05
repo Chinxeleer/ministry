@@ -1,7 +1,18 @@
 ---
 import ImageSlot from './ImageSlot.astro';
+import connectGroup from '../assets/hero.png';
 
-const tiles = [
+interface Tile {
+  id: string;
+  /** Placeholder caption, shown until `src` is supplied. */
+  photo: string;
+  src?: ImageMetadata;
+  alt?: string;
+  title: string;
+  note: string;
+}
+
+const tiles: Tile[] = [
   {
     id: 'reach-study',
     photo: 'Photo: Exam study session on campus',
@@ -11,6 +22,8 @@ const tiles = [
   {
     id: 'reach-connect',
     photo: 'Photo: Connect Group meeting',
+    src: connectGroup,
+    alt: 'Six students from a Connect Group standing arm in arm outside on the grass',
     title: 'Connect Groups',
     note: 'Small communities where students find belonging',
   },
@@ -49,7 +62,11 @@ const tiles = [
       opening our homes, raising student leaders.
     </p>
 
-    <div class="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[18px]">
+    <!-- Two across on desktop rather than four: at ~540px a tile is big
+         enough to read the faces and the setting in each photo. -->
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-4.5"
+    >
       {
         tiles.map((tile, i) => (
           <figure
@@ -58,7 +75,13 @@ const tiles = [
             class="group relative overflow-hidden rounded-2xl aspect-4/3"
           >
             <div class="h-full w-full transition-transform duration-600 ease-out-soft group-hover:scale-105">
-              <ImageSlot id={tile.id} label={tile.photo} />
+              <ImageSlot
+                id={tile.id}
+                label={tile.photo}
+                src={tile.src}
+                alt={tile.alt}
+                maxWidth={720}
+              />
             </div>
             <figcaption class="scrim pointer-events-none absolute inset-x-0 bottom-0 px-[18px] pt-11 pb-3.5">
               <p class="text-[16px] font-semibold text-white">{tile.title}</p>
