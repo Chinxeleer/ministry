@@ -1,6 +1,8 @@
 ---
 import ImageSlot from './ImageSlot.astro';
 import connectGroup from '../assets/hero.png';
+import fitness from '../assets/fitness.jpg';
+import leadership from '../assets/leadership.jpg';
 
 interface Tile {
   id: string;
@@ -8,6 +10,8 @@ interface Tile {
   photo: string;
   src?: ImageMetadata;
   alt?: string;
+  /** CSS object-position, for steering the crop of an off-ratio photo. */
+  position?: string;
   title: string;
   note: string;
 }
@@ -30,6 +34,10 @@ const tiles: Tile[] = [
   {
     id: 'reach-fitness',
     photo: 'Photo: Ilwa Fitness session',
+    src: fitness,
+    alt: 'A large group of students in workout gear on the athletics track after a session',
+    // Portrait source in a 4:3 tile — bias the crop down onto the group.
+    position: '50% 75%',
     title: 'Ilwa Fitness',
     note: "Looking after students' bodies, not just their studies",
   },
@@ -42,6 +50,8 @@ const tiles: Tile[] = [
   {
     id: 'reach-leaders',
     photo: 'Photo: Student leadership meeting',
+    src: leadership,
+    alt: 'Students packed together for a night gathering under the stand, the city behind them',
     title: 'Leadership',
     note: 'Training students to lead on campus and after it',
   },
@@ -92,6 +102,7 @@ const tiles: Tile[] = [
                 label={tile.photo}
                 src={tile.src}
                 alt={tile.alt}
+                position={tile.position}
                 maxWidth={720}
               />
             </div>
