@@ -1,3 +1,10 @@
+# This file carries pnpm settings only — the repo is a single package.
+# pnpm 10.13+ treats `packages` as optional here, but older releases (such as
+# the pnpm 10.11 on Cloudflare Pages' build image) abort with "packages field
+# missing or empty", so the root is listed explicitly.
+packages:
+  - '.'
+
 allowBuilds:
   esbuild: true
   sharp: true
