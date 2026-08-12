@@ -1,6 +1,7 @@
 ---
 import ImageSlot from './ImageSlot.astro';
 import connectGroup from '../assets/hero.png';
+import edu from '../assets/Edu.jpeg';
 import fitness from '../assets/fitness.jpg';
 import leadership from '../assets/leadership.jpg';
 
@@ -20,6 +21,10 @@ const tiles: Tile[] = [
   {
     id: 'reach-study',
     photo: 'Photo: Edu Initiative study session on campus',
+    src: edu,
+    alt: 'Students working on laptops through a lecture hall during an Edu Initiative study session',
+    // Portrait source in a 4:3 tile — trim the ceiling, hold the full room.
+    position: '50% 58%',
     title: 'The Edu Initiative',
     note: 'Study sessions that carry students through exam season',
   },
