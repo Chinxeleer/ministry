@@ -111,7 +111,12 @@ const pillars: Pillar[] = [
             </div>
 
             <div data-reveal data-reveal-delay="120">
-              <span class="index-num mb-4" aria-hidden="true">
+              {/* Scaled up from the shared 18/20: at ~40px the numeral sits
+                  as a peer to the pillar heading rather than a caption. */}
+              <span
+                class="index-num mb-4 text-[clamp(30px,4vw,40px)] leading-[1.1]"
+                aria-hidden="true"
+              >
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3 class="mb-4 text-[clamp(24px,3.4vw,34px)] leading-[1.15] font-bold text-navy">
