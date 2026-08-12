@@ -1,5 +1,6 @@
 ---
 import ImageSlot from './ImageSlot.astro';
+import askBackground from '../assets/theask.jpeg';
 import {
   contactEmail,
   ctaHref,
@@ -16,7 +17,11 @@ import {
     <div data-parallax class="absolute inset-x-0 -inset-y-[8%]">
       <ImageSlot
         id="ask-bg"
-        label="Photo: ENC Wits students together / worship night"
+        label="Photo: ENC Wits students gathered outdoors"
+        src={askBackground}
+        alt=""
+        position="50% 45%"
+        widths={[640, 1024, 1600, 2048]}
       />
     </div>
   </div>

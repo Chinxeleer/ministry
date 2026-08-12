@@ -37,6 +37,13 @@ interface Props {
    * thumbnail) should set this so Astro doesn't generate full-viewport srcsets.
    */
   maxWidth?: number;
+  /**
+   * Candidate widths for a full-bleed slot. Worth capping when the source is
+   * huge and the slot sits under a heavy scrim: the top of Astro's default
+   * srcset follows the source width, so a 4000px photo ships a multi-megabyte
+   * variant to any high-DPI laptop.
+   */
+  widths?: number[];
   class?: string;
 }
 
@@ -50,6 +57,7 @@ const {
   tone = 'dark',
   position = 'center',
   maxWidth,
+  widths,
   class: className = '',
 } = Astro.props;
 
@@ -72,7 +80,7 @@ const radius =
         alt={alt}
         {...maxWidth
           ? { layout: 'constrained' as const, width: maxWidth }
-          : { layout: 'full-width' as const }}
+          : { layout: 'full-width' as const, ...(widths ? { widths } : {}) }}
         loading={eager ? 'eager' : 'lazy'}
         fetchpriority={eager ? 'high' : 'auto'}
         class="h-full w-full object-cover"
