@@ -183,7 +183,8 @@
    off — or if the bundle fails — the page stays fully visible.
    ============================================================ */
 html.gsap [data-reveal],
-html.gsap [data-hero] {
+html.gsap [data-hero],
+html.gsap [data-split] {
   opacity: 0;
 }
 
@@ -192,8 +193,12 @@ html.gsap [data-hero] {
     scroll-behavior: auto;
   }
   html.gsap [data-reveal],
-  html.gsap [data-hero] {
+  html.gsap [data-hero],
+  html.gsap [data-split] {
     opacity: 1;
+  }
+  .progress-track {
+    display: none;
   }
   .scroll-cue {
     animation: none;
@@ -205,6 +210,23 @@ html.gsap [data-hero] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* Reading progress — a gold hairline that fills as the page is read */
+.progress-track {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 2px;
+  pointer-events: none;
+}
+.progress-bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--color-gold);
 }
 
 /* Hero scroll indicator — the gold arrow drifting downward */

@@ -46,17 +46,25 @@ const ogImage = new URL('/images/og-image.jpg', Astro.site ?? Astro.url).href;
     </script>
   </head>
   <body>
+    <div class="progress-track" aria-hidden="true">
+      <span id="progress" class="progress-bar"></span>
+    </div>
+
     <slot />
 
     <script>
       import gsap from 'gsap';
       import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import { SplitText } from 'gsap/SplitText';
 
-      gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger, SplitText);
 
       /** Safety net: if anything below throws, show everything. */
       const showAll = () => {
-        gsap.set('[data-reveal], [data-hero]', { autoAlpha: 1, y: 0 });
+        gsap.set('[data-reveal], [data-hero], [data-split]', {
+          autoAlpha: 1,
+          y: 0,
+        });
         document
           .querySelectorAll<HTMLElement>('[data-count]')
           .forEach(fillCount);
@@ -105,6 +113,41 @@ const ogImage = new URL('/images/og-image.jpg', Astro.site ?? Astro.url).href;
                 }
               );
             }
+
+            /* ---------------------------------------------------------
+               Headings — split into lines, words rise out of the mask.
+               autoSplit re-measures after webfonts land and on resize,
+               so a re-wrapped line never keeps a stale mask.
+               --------------------------------------------------------- */
+            gsap.utils.toArray<HTMLElement>('[data-split]').forEach((el) => {
+              // Above the fold there is nothing to scroll to — play at once.
+              const inHero = Boolean(el.closest('#top'));
+
+              SplitText.create(el, {
+                type: 'lines,words',
+                mask: 'lines',
+                autoSplit: true,
+                onSplit: (self) =>
+                  gsap.fromTo(
+                    self.words,
+                    { yPercent: 118, autoAlpha: 0 },
+                    {
+                      yPercent: 0,
+                      autoAlpha: 1,
+                      duration: 1,
+                      stagger: 0.045,
+                      delay: inHero ? 0.2 : 0,
+                      scrollTrigger: inHero
+                        ? undefined
+                        : { trigger: el, start: 'top 88%' },
+                    }
+                  ),
+              });
+
+              // The heading itself is only pre-hidden to avoid a flash; the
+              // words carry the animation from here.
+              gsap.set(el, { autoAlpha: 1 });
+            });
 
             /* ---------------------------------------------------------
                Scroll reveals — 26px lift, honouring data-reveal-delay
@@ -166,6 +209,47 @@ const ogImage = new URL('/images/og-image.jpg', Astro.site ?? Astro.url).href;
                   }
                 );
               });
+
+            /* ---------------------------------------------------------
+               Photos settle out of a slow push-in as they arrive
+               --------------------------------------------------------- */
+            gsap.utils
+              .toArray<HTMLElement>('[data-reveal] img')
+              .forEach((img) => {
+                gsap.fromTo(
+                  img,
+                  { scale: 1.1 },
+                  {
+                    scale: 1,
+                    duration: 1.6,
+                    scrollTrigger: {
+                      trigger: img,
+                      start: 'top 95%',
+                    },
+                  }
+                );
+              });
+
+            /* ---------------------------------------------------------
+               Gold reading-progress bar across the top of the page
+               --------------------------------------------------------- */
+            const progress = document.querySelector<HTMLElement>('#progress');
+            if (progress) {
+              gsap.fromTo(
+                progress,
+                { scaleX: 0 },
+                {
+                  scaleX: 1,
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: document.documentElement,
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.3,
+                  },
+                }
+              );
+            }
 
             /* ---------------------------------------------------------
                Stat counters

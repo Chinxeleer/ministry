@@ -21,7 +21,7 @@ const stats = [
 >
   <div class="section-inner">
     <h2
-      data-reveal
+      data-split
       class="max-w-[22ch] text-[clamp(32px,5.5vw,54px)] leading-[1.12] font-bold text-balance text-white"
     >
       This is bigger than one campus.
@@ -62,9 +62,13 @@ const stats = [
       }
     </div>
 
+    {/* The mosaic is natively 16:9. Below ~515px a 21/9 box is shorter than
+        the old 220px min-height, so the two rules fought and the crop came
+        out arbitrary — carry the source ratio on small screens instead, and
+        only letterbox to the wide strip once there is room for it. */}
     <div
       data-reveal
-      class="mt-5 min-h-[220px] overflow-hidden rounded-2xl aspect-21/9"
+      class="mt-5 overflow-hidden rounded-2xl aspect-video md:aspect-21/9"
     >
       <ImageSlot
         id="global-gathering"
