@@ -19,7 +19,7 @@ export const tiers = ['R350', 'R500', 'R1000'].map((amount) => ({
   badge: amount === highlightTier ? 'Most chosen' : '',
 }));
 
-const partnerMessage = "Hi Chinxeleer, I'd like to become a monthly ministry partner.";
+const partnerMessage = "Hi Blessing, I'd like to become a monthly ministry partner.";
 
 export const ctaHref = whatsappNumber
   ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(partnerMessage)}`
